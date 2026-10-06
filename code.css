@@ -1,0 +1,128 @@
+/* ===== VARIABLES CSS =====
+   On définit les couleurs une seule fois ici, puis on les réutilise
+   avec var(--nom). Avantage : pour changer une couleur partout,
+   on ne modifie qu'une seule ligne */
+:root {
+  --green: #009966;       /* vert de l'en-tête */
+  --green-dark: #00794f;  /* vert foncé de l'item de menu actif */
+  --blue: #2196c9;        /* bleu de la barre latérale */
+  --text-dark: #1a1a1a;   /* couleur du texte principal */
+  --border: #cfcfcf;      /* couleur des bordures grises */
+}
+
+/* box-sizing: border-box = le padding et la bordure sont INCLUS
+   dans la largeur/hauteur d'un élément, au lieu de s'ajouter par-dessus.
+   Ça évite bien des surprises de mise en page */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; /* supprime la marge par défaut du navigateur autour de la page */
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-dark);
+  background: #ffffff;
+}
+
+/* ---------- EN-TÊTE ---------- */
+header {
+  background: var(--green);
+  color: #fff;
+  padding: 24px 30px; /* espace intérieur : 24px haut/bas, 30px gauche/droite */
+}
+header h1 {
+  margin: 0 0 6px 0; /* haut droite bas gauche : seulement 6px sous le titre */
+  font-size: 2.1rem;
+}
+header p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ---------- STRUCTURE EN 3 COLONNES ---------- */
+.layout {
+  display: grid;
+  /* 3 colonnes : 200px fixes (menu) / le reste disponible (1fr = contenu)
+     / 220px fixes (barre latérale) */
+  grid-template-columns: 200px 1fr 220px;
+  align-items: start; /* chaque colonne s'aligne en haut, ne s'étire pas verticalement */
+}
+
+/* ---------- MENU (colonne de gauche) ---------- */
+nav {
+  padding: 20px 10px;
+}
+nav ul {
+  list-style: none; /* enlève les puces par défaut des <li> */
+  margin: 0;
+  padding: 0;
+}
+nav li {
+  margin-bottom: 8px; /* espace entre chaque item du menu */
+}
+nav a {
+  display: block; /* le lien occupe toute la largeur disponible, pas juste le texte */
+  padding: 8px 10px;
+  text-decoration: none; /* enlève le soulignement du lien */
+  color: var(--text-dark);
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+/* Cible le lien <a> uniquement quand il est DANS un <li class="active"> */
+nav li.active a {
+  background: var(--green-dark);
+  color: #fff;
+  border-color: var(--green-dark);
+  font-weight: bold;
+}
+
+/* ---------- CONTENU PRINCIPAL (colonne du milieu) ---------- */
+main {
+  padding: 25px 30px;
+}
+main h2 {
+  font-size: 1.7rem;
+  margin-top: 0;
+}
+main h3 {
+  font-size: 1.3rem;
+  margin-top: 30px;
+}
+main p {
+  line-height: 1.6; /* espace entre les lignes, pour une meilleure lisibilité */
+  max-width: 60ch;  /* "ch" = largeur du caractère "0" ; limite la ligne à ~60 caractères */
+}
+main a {
+  color: #1a6fbf;
+}
+
+/* ---------- BARRE LATÉRALE (colonne de droite) ---------- */
+aside {
+  background: var(--blue);
+  color: #fff;
+  padding: 20px;
+  min-height: 100%; /* s'étire pour occuper toute la hauteur de la ligne de grille */
+}
+aside h3 {
+  margin-top: 0;
+}
+aside p {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ---------- PIED DE PAGE ---------- */
+footer {
+  /* "1 / -1" = de la première à la dernière colonne de la grille :
+     ça force le footer à s'étendre sur toute la largeur, malgré les 3 colonnes */
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+  padding: 15px 20px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+/* ---------- RESPONSIVE (écrans étroits) ---------- */
+/* En dessous de 800px de large, on passe à une seule colonne :
+   le menu, le contenu et la barre latérale s'empilent verticalement */
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+}
